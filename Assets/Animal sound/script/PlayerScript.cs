@@ -7,14 +7,19 @@ public class PlayerScript : MonoBehaviour
 {
     public Slider volumeSlider;
     public SpriteRenderer spriteRenderer;
-    public Sprite spriteDog, spriteCat, spriteChicken,spritePig, spriteDefault;
+    public Sprite spriteDog, spriteCat, spriteChicken,spritePig,spriteGoat, spriteDefault;
 
     public RoadScript roadScript;
-    private bool isStopped = false;
+    public bool isStopped = false;
+
+    public GameObject panel;
+
+    public Vector3 originalPos;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        originalPos = transform.position;
     }
 
     // Update is called once per frame
@@ -34,13 +39,17 @@ public class PlayerScript : MonoBehaviour
         {
             spriteRenderer.sprite = spriteCat;
         }
-        else if(volumeSlider.value >= 6 && volumeSlider.value < 8)
+        else if(volumeSlider.value >= 6 && volumeSlider.value < 9)
         {
             spriteRenderer.sprite = spriteChicken;
         }
-        else if (volumeSlider.value >= 8 && volumeSlider.value <= 10)
+        else if (volumeSlider.value >= 9 && volumeSlider.value <= 12)
         {
             spriteRenderer.sprite = spritePig;
+        }
+        else if (volumeSlider.value >12)
+        {
+            spriteRenderer.sprite = spriteGoat;
         }
     }
 
@@ -49,13 +58,15 @@ public class PlayerScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("WinningPoint"))
         {
-            roadScript.StopPlatform();
+            //roadScript.StopPlatform();
+            Time.timeScale = 0;
+            panel.SetActive(true);
             Debug.Log("You win!");
         }
         else if (collision.gameObject.CompareTag("Obstacle1"))
         {
             // Kiểm tra điều kiện cho vật cản 1
-            if (volumeSlider.value >= 1f && volumeSlider.value < 3f)
+            if (volumeSlider.value >= 1 && volumeSlider.value < 3)
             {
                 // Cho phép đi qua
                 Debug.Log("Abc");
@@ -69,7 +80,7 @@ public class PlayerScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("Obstacle2"))
         {
             // Kiểm tra điều kiện cho vật cản 2
-            if (volumeSlider.value > 3f && volumeSlider.value <6f)
+            if (volumeSlider.value > 3 && volumeSlider.value <6)
             {
                 // Cho phép đi qua
                 Debug.Log("Passed Obstacle 2");
@@ -83,7 +94,7 @@ public class PlayerScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("Obstacle3"))
         {
             // Kiểm tra điều kiện cho vật cản 3
-            if (volumeSlider.value >= 6f && volumeSlider.value < 8f)
+            if (volumeSlider.value >= 6 && volumeSlider.value < 9)
             {
                 // Cho phép đi qua
                 Debug.Log("Passed Obstacle 3");
@@ -97,7 +108,7 @@ public class PlayerScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("Obstacle4"))
         {
             // Kiểm tra điều kiện cho vật cản 4
-            if (volumeSlider.value > 8f)
+            if (volumeSlider.value >= 9 && volumeSlider.value < 12)
             {
                 // Cho phép đi qua
                 Debug.Log("Passed Obstacle 4");
@@ -108,5 +119,20 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(roadScript.ReversePlatform());
             }
         }
+        else if (collision.gameObject.CompareTag("Obstacle5"))
+        {
+            // Kiểm tra điều kiện cho vật cản 5
+            if (volumeSlider.value >= 12)
+            {
+                // Cho phép đi qua
+                Debug.Log("Passed Obstacle 5");
+            }
+            else
+            {
+                // Lùi lại
+                StartCoroutine(roadScript.ReversePlatform());
+            }
+        }
+
     }
 }

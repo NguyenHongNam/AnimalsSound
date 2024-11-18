@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public float sensitivity = 200f;
+    public float sensitivity = 100f;
     public float loudness = 0f;
 
     public UnityEngine.UI.Slider volumeSlider;
